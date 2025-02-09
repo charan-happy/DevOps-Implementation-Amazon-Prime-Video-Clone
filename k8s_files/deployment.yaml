@@ -1,0 +1,23 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: charan-app
+  labels:
+    app: charan-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: charan-app
+  template:
+    metadata:
+      labels:
+        app: charan-app
+    spec:
+      containers:
+      - name: charan-container
+        image: 309395755719.dkr.ecr.us-east-1.amazonaws.com/amazon-prime:latest
+        ports:
+        - containerPort: 3000
+...
