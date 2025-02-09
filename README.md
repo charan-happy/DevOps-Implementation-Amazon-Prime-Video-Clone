@@ -8,6 +8,22 @@
 ## Project Overview
 - By the end of this project, we will learn how to integration set of below mentioned DevOps tools for a video streaming platform like Amazon prime video
 
+
+Go to your project directory
+```
+verify npm installation using npm --version 
+verify nodejs installation using node --version
+npm init -y
+you should get package.json file
+do npm start 
+
+if you are getting further issues go ahead and troubleshoot
+
+(for me i need to install react-script)
+npm install react-scriptsn
+npm start
+```
+
 - Terraform: Infrastructure as Code (IaC) tool to create AWS infrastructure such as - EC2 instances and EKS clusters.
 - GitHub: Source code management.
 - Jenkins: CI/CD automation tool.
