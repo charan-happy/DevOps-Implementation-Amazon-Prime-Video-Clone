@@ -27,15 +27,25 @@ pipeline {
                     sh """
                     helm repo add stable https://charts.helm.sh/stable || true
                     helm repo add prometheus-community https://prometheus-community.github.io/helm-charts || true
+                    helm repo update
+
                     # Check if namespace 'prometheus' exists
                     if kubectl get namespace prometheus > /dev/null 2>&1; then
-                        # If namespace exists, upgrade the Helm release
+                        echo "Namespace 'prometheus' exists"
+                    else
+                        echo "Creating namespace 'prometheus'"
+                        kubectl create namespace prometheus
+                    fi
+
+                    # Check if the Helm release exists
+                    if helm ls -n prometheus | grep stable > /dev/null 2>&1; then
+                        echo "Upgrading existing Helm release 'stable'"
                         helm upgrade stable prometheus-community/kube-prometheus-stack -n prometheus
                     else
-                        # If namespace does not exist, create it and install Helm release
-                        kubectl create namespace prometheus
+                        echo "Installing new Helm release 'stable'"
                         helm install stable prometheus-community/kube-prometheus-stack -n prometheus
                     fi
+
                     kubectl patch svc stable-kube-prometheus-sta-prometheus -n prometheus -p '{"spec": {"type": "LoadBalancer"}}'
                     kubectl patch svc stable-grafana -n prometheus -p '{"spec": {"type": "LoadBalancer"}}'
                     """
@@ -55,6 +65,5 @@ pipeline {
                 }
             }
         }
-		
     }
 }
